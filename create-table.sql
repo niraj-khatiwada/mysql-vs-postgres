@@ -12,12 +12,13 @@ CREATE TABLE customer (
     phone VARCHAR(20),
     birth_date DATE,
     sex CHAR(1),
-    date_entered TIMESTAMP,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -- IMPORTANT: TIMESTAMP in MySQL does not store milliseconds by default. i.e. it stores as YYYY-MM-DD HH:MM:SS unlike YYYY-MM-DD HH:MM:SS.mmm in PostgreSQL. You have to use TIMESTAMP(3) for milliseconds precision.
+    date_entered TIMESTAMP(3),
+    created_at TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP(3),
     -- The "ON UPDATE" command on MySQL uses trigger under the hood to update the timestamp whenever there is mutation ion the row. PostgreSQL doesn't have this feature. We need to create a trigger manually for this case.
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     -- We'll create a trigger manually for this one
-    updated_at_manual DATETIME DEFAULT CURRENT_TIMESTAMP
+    updated_at_manual TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP(3)
 );
 
 -- PostgreSQL
@@ -36,11 +37,18 @@ create table customer (
     birth_date DATE,
     sex CHAR(1),
     -- TIMESTAMP is supported in both MySQL and PostgreSQL
-    date_entered TIMESTAMP,
+    -- IMPORTANT: TIMESTAMP in PostgreSQL also stores milliseconds by default. i.e. YYYY-MM-DD HH:MM:SS.mmm. So, to make it consistent, always use TIMESTAMP(3)
+    date_entered TIMESTAMP(3),
+    -- 
+    -- If you want to store timezone offset as well, use "timestamp with timezone flag". Eg: "date_entered TIMESTAMP with time zone". Output will be: "2023-12-17 22:10:36.651 +0545". 
+    -- "TIMESTAMPTZ" & "TIMESTAMP WITH TIME ZONE" are exactly same.
+    -- "TIMESTAMP" & "TIMESTAMP WITHOUT TIME ZONE" are exactly same.
+    -- date_entered TIMESTAMP with time zone,
+    -- 
     -- PostgreSQL does not have "DATETIME" date data types. Use TIMESTAMP instead
-    created_at TIMESTAMP default CURRENT_TIMESTAMP,
+    created_at TIMESTAMP(3) default CURRENT_TIMESTAMP(3),
     -- See procedure and trigger below to auto update updated_at timestamp
-    updated_at TIMESTAMP default CURRENT_TIMESTAMP
+    updated_at TIMESTAMP(3) default CURRENT_TIMESTAMP(3)
 );
 
 -- create a procedure(function) first

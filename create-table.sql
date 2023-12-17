@@ -36,11 +36,11 @@ create table customer (
     phone VARCHAR(20),
     birth_date DATE,
     sex CHAR(1),
-    -- TIMESTAMP is supported in both MySQL and PostgreSQL
-    -- IMPORTANT: TIMESTAMP in PostgreSQL also stores milliseconds by default. i.e. YYYY-MM-DD HH:MM:SS.mmm. So, to make it consistent, always use TIMESTAMP(3)
+    -- TIMESTAMP is supported in both MySQL and PostgreSQL but,
+    -- IMPORTANT: TIMESTAMP in PostgreSQL also stores milliseconds by default. i.e. YYYY-MM-DD HH:MM:SS.mmm. So, to make it consistent with MySQl, always use TIMESTAMP(3) in both.
     date_entered TIMESTAMP(3),
     -- 
-    -- If you want to store timezone offset as well, use "timestamp with timezone flag". Eg: "date_entered TIMESTAMP with time zone". Output will be: "2023-12-17 22:10:36.651 +0545". 
+    -- If you want to store timezone offset as well, use "timestamp with timezone" flag. Eg: "date_entered TIMESTAMP with time zone". Output will be: "2023-12-17 22:10:36.651 +0545". 
     -- "TIMESTAMPTZ" & "TIMESTAMP WITH TIME ZONE" are exactly same.
     -- "TIMESTAMP" & "TIMESTAMP WITHOUT TIME ZONE" are exactly same.
     -- date_entered TIMESTAMP with time zone,

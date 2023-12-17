@@ -1,8 +1,10 @@
+-- MySQL
 CREATE DATABASE db;
 
 -- OR
 CREATE SCHEMA db;
 
+-- PostgreSQL
 -- Database and schema is same in MySQL
 -- 
 -- A new database will always have public schema by default.
